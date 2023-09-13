@@ -119,16 +119,16 @@
 					<artifactId>liquibase-maven-plugin</artifactId>
 					<version>3.5.3</version>
 					<configuration>
-						<changeLogFile>${liquibase.changeLogFile}</changeLogFile>
-						<driver>${db.driver}</driver>
-						<url>${db.url}</url>
-						<defaultSchemaName>${db.schema}</defaultSchemaName>
-						<username>${db.username}</username>
-						<password>${db.password}</password>
-						<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
-						<expressionVariables>
-							<db.schema>${db.schema}</db.schema>
-						</expressionVariables>
+											<changeLogFile>${liquibase.changeLogFile}</changeLogFile>
+											<driver>org.postgresql.Driver</driver>
+											<url>jdbc:postgresql://localhost:5432/</url>
+											<defaultSchemaName>public</defaultSchemaName>
+											<username>meveo</username>
+											<password>meveo</password>
+											<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+											<expressionVariables>
+												<db.schema>public</db.schema>
+											</expressionVariables>
 					</configuration>
 				</plugin>
 			</plugins>
