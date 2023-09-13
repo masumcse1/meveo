@@ -79,6 +79,27 @@ WORKDIR /opt/jboss
 
 ### ------------------------- base-end ------------------------- ###
 
+### ------------------------- Maven ----------------------------- ###
+# Set the MAVEN_VERSION env variable
+ENV MAVEN_VERSION 3.8.8
+ENV MAVEN_HOME /opt/maven
+ARG MAVEN_SHA512=332088670d14fa9ff346e6858ca0acca304666596fec86eea89253bd496d3c90deae2be5091be199f48e09d46cec817c6419d5161fb4ee37871503f472765d00
+
+# Add the MAVEN distribution to /opt, and make jboss the owner of the extracted tar content
+# Make sure the distribution is available from a well-known place
+RUN cd $HOME \
+    && curl -O https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
+    && sha512sum apache-maven-${MAVEN_VERSION}-bin.tar.gz | grep ${MAVEN_SHA512} \
+    && tar xf apache-maven-${MAVEN_VERSION}-bin.tar.gz \
+    && mv $HOME/apache-maven-${MAVEN_VERSION} ${MAVEN_HOME} \
+    && rm apache-maven-${MAVEN_VERSION}-bin.tar.gz \
+    && chown -R jboss:0 ${MAVEN_HOME} \
+    && chmod -R g+rw ${MAVEN_HOME}
+
+ENV PATH="${MAVEN_HOME}/bin/:${PATH}"
+
+### ------------------------- Maven - End ----------------------------- ###
+
 ### ------------------------- NodeJs & NPM ------------------------------- ###
 
 ENV NODE_VERSION=16.14.0
