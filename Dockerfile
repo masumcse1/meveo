@@ -18,8 +18,7 @@ COPY . .
 # Download all dependencies using docker cache
 #RUN mvn dependency:go-offline
 
-RUN --mount=type=cache,target=/root/.m2 \
-    --mount=type=cache,target=/usr/src/meveo/target/classes \
+RUN --mount=type=cache,target=/usr/src/meveo/target/classes \
     --mount=type=cache,target=/usr/src/meveo/meveo-admin-ejbs/target/classes \
     --mount=type=cache,target=/usr/src/meveo/meveo-admin-web/target/classes \
     --mount=type=cache,target=/usr/src/meveo/meveo-annotations/target/classes \
@@ -31,7 +30,8 @@ RUN --mount=type=cache,target=/root/.m2 \
     --mount=type=cache,target=/usr/src/meveo/meveo-reporting/target/classes \
     --mount=type=cache,target=/usr/src/meveo/meveo-security/target/classes \
     --mount=type=cache,target=/usr/src/meveo/meveo-ws/target/classes \
-    mvn package -Dscm.url=${SCM} -DskipTests -Dmaven.test.skip=true
+    mvn install \
+    && mvn package -Dscm.url=${SCM} -DskipTests -Dmaven.test.skip=true
 
 ##################################################################
 #####                Build meveo docker image                #####
@@ -76,6 +76,9 @@ RUN groupadd -r jboss -g 2002 \
 
 # Set the working directory to jboss' user home directory
 WORKDIR /opt/jboss
+
+### maven repo
+COPY --chown=jboss:jboss --from=build-meveo /root/.m2 /opt/jboss/.m2
 
 ### ------------------------- base-end ------------------------- ###
 
