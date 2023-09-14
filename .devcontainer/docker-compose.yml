@@ -63,7 +63,7 @@ services:
     #build: 
     #  context: ../
     #  dockerfile: Dockerfile.dev
-    container_name: meveo-dev
+    container_name: suma-meveo
     networks:
       - meveo
     volumes:

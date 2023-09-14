@@ -8,7 +8,8 @@ FROM maven:3.6-jdk-11-slim AS build-meveo
 RUN apt-get -y update
 RUN apt-get -y install git
  
-ARG SCM="scm:git:ssh://git@github.com:meveo-org/meveo.git"
+ARG SCM="scm:git:ssh://git@github.com:masumcse1/meveo.git"
+ARG BRANCH="mydockerproblem"
 ARG BUILD_NUMBER
 
 WORKDIR /usr/src/meveo
@@ -18,20 +19,7 @@ COPY . .
 # Download all dependencies using docker cache
 #RUN mvn dependency:go-offline
 
-RUN --mount=type=cache,target=/usr/src/meveo/target/classes \
-    --mount=type=cache,target=/usr/src/meveo/meveo-admin-ejbs/target/classes \
-    --mount=type=cache,target=/usr/src/meveo/meveo-admin-web/target/classes \
-    --mount=type=cache,target=/usr/src/meveo/meveo-annotations/target/classes \
-    --mount=type=cache,target=/usr/src/meveo/meveo-api/target/classes \
-    --mount=type=cache,target=/usr/src/meveo/meveo-api-dto/target/classes \
-    --mount=type=cache,target=/usr/src/meveo/meveo-el-resolver/target/classes \
-    --mount=type=cache,target=/usr/src/meveo/meveo-json-schema/target/classes \
-    --mount=type=cache,target=/usr/src/meveo/meveo-model/target/classes \
-    --mount=type=cache,target=/usr/src/meveo/meveo-reporting/target/classes \
-    --mount=type=cache,target=/usr/src/meveo/meveo-security/target/classes \
-    --mount=type=cache,target=/usr/src/meveo/meveo-ws/target/classes \
-    mvn install \
-    && mvn package -Dscm.url=${SCM} -DskipTests -Dmaven.test.skip=true
+mvn install -Dscm.url=${SCM} -DskipTests -Dmaven.test.skip=true
 
 ##################################################################
 #####                Build meveo docker image                #####
