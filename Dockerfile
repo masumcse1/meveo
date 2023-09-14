@@ -9,7 +9,7 @@ RUN apt-get -y update
 RUN apt-get -y install git
  
 ARG SCM="scm:git:ssh://git@github.com:masumcse1/meveo.git"
-ARG BRANCH="mydockerproblem"
+#ARG BRANCH="mydockerproblem"
 ARG BUILD_NUMBER
 
 WORKDIR /usr/src/meveo
@@ -19,7 +19,7 @@ COPY . .
 # Download all dependencies using docker cache
 #RUN mvn dependency:go-offline
 
-mvn install -Dscm.url=${SCM} -DskipTests -Dmaven.test.skip=true
+mvn install -Dscm.url=${SCM} -Dscm.branch=mydockerproblem -DskipTests -Dmaven.test.skip=true
 
 ##################################################################
 #####                Build meveo docker image                #####
