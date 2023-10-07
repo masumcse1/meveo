@@ -193,9 +193,10 @@ RUN apt-get update \
     && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
 # Install maven
-ARG MAVEN_VERSION=3.9.3
-ARG SHA=400fc5b6d000c158d5ee7937543faa06b6bda8408caa2444a9c947c21472fde0f0b64ac452b8cec8855d528c0335522ed5b6c8f77085811c7e29e1bedbb5daa2
+ARG MAVEN_VERSION=3.8.8
+ARG SHA=b65419c7e991460aeeab70645009148e9e8b8eb00be80d9cfd60e8a9941e057a6df1f0c3b9f2f2921a6d2b5d0d21563345f0f217c2a097e1ee3a30cd773aa2db
 ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
+         
 
 RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
   && curl -fsSL -o /tmp/apache-maven.tar.gz ${BASE_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
